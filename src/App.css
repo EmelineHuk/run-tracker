@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 40px auto;
   background: white;
   padding: 24px;
@@ -61,4 +61,26 @@ h1 {
 
 .training-form button:hover {
   opacity: 0.9;
+}
+
+.training-list {
+  margin-top: 32px;
+}
+
+.training-list h2 {
+  margin-bottom: 16px;
+}
+
+.training-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.training-list li {
+  background: #f4f7fb;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
 }

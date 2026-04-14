@@ -5,13 +5,19 @@ function App() {
   const [date, setDate] = useState('')
   const [distance, setDistance] = useState('')
   const [time, setTime] = useState('')
+  const [trainings, setTrainings] = useState([])
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    alert(
-      `Treino salvo!\nData: ${date}\nDistância: ${distance} km\nTempo: ${time}`
-    )
+    const newTraining = {
+      id: Date.now(),
+      date,
+      distance,
+      time,
+    }
+
+    setTrainings([...trainings, newTraining])
 
     setDate('')
     setDistance('')
@@ -59,6 +65,24 @@ function App() {
 
         <button type="submit">Salvar treino</button>
       </form>
+
+      <div className="training-list">
+        <h2>Histórico de treinos</h2>
+
+        {trainings.length === 0 ? (
+          <p>Nenhum treino cadastrado ainda.</p>
+        ) : (
+          <ul>
+            {trainings.map((training) => (
+              <li key={training.id}>
+                <strong>Data:</strong> {training.date} |{' '}
+                <strong>Distância:</strong> {training.distance} km |{' '}
+                <strong>Tempo:</strong> {training.time}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }
