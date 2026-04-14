@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import { calculatePace } from './utils/calculatePace'
 
 function App() {
   const [date, setDate] = useState('')
