@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="container">
       <h1>Run Tracker</h1>
-      <p className="subtitle">Registre seus treinos de corrida</p>
+      <p className="subtitle">Registre seus treinos</p>
 
       <form className="training-form" onSubmit={handleSubmit}>
         <label>
