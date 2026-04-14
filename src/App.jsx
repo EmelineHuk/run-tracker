@@ -1,120 +1,115 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [date, setDate] = useState('')
+  const [distance, setDistance] = useState('')
+  const [time, setTime] = useState('')
+  const [trainings, setTrainings] = useState([])
+
+  function convertTimeToSeconds(timeString) {
+    const [hours, minutes, seconds] = timeString.split(':').map(Number)
+    return hours * 3600 + minutes * 60 + seconds
+  }
+
+  function calculatePace(timeString, distanceInKm) {
+    const totalSeconds = convertTimeToSeconds(timeString)
+    const paceInSeconds = Math.round(totalSeconds / distanceInKm)
+
+    const minutes = Math.floor(paceInSeconds / 60)
+    const seconds = paceInSeconds % 60
+
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} min/km`
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const distanceNumber = Number(distance)
+
+    if (distanceNumber <= 0) {
+      alert('A distância deve ser maior que zero.')
+      return
+    }
+
+    const pace = calculatePace(time, distanceNumber)
+
+    const newTraining = {
+      id: Date.now(),
+      date,
+      distance: distanceNumber,
+      time,
+      pace,
+    }
+
+    setTrainings([...trainings, newTraining])
+
+    setDate('')
+    setDistance('')
+    setTime('')
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="container">
+      <h1>Run Tracker</h1>
+      <p className="subtitle">Registre seus treinos</p>
 
-      <div className="ticks"></div>
+      <form className="training-form" onSubmit={handleSubmit}>
+        <label>
+          Data do treino
+          <input
+            type="date"
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
+            required
+          />
+        </label>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
+        <label>
+          Distância (km)
+          <input
+            type="number"
+            step="0.01"
+            placeholder="Ex: 5"
+            value={distance}
+            onChange={(event) => setDistance(event.target.value)}
+            required
+          />
+        </label>
+
+        <label>
+          Tempo
+          <input
+            type="time"
+            step="1"
+            value={time}
+            onChange={(event) => setTime(event.target.value)}
+            required
+          />
+        </label>
+
+        <button type="submit">Salvar treino</button>
+      </form>
+
+      <div className="training-list">
+        <h2>Histórico de treinos</h2>
+
+        {trainings.length === 0 ? (
+          <p>Nenhum treino cadastrado ainda.</p>
+        ) : (
           <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+            {trainings.map((training) => (
+              <li key={training.id}>
+                <strong>Data:</strong> {training.date} |{' '}
+                <strong>Distância:</strong> {training.distance} km |{' '}
+                <strong>Tempo:</strong> {training.time} |{' '}
+                <strong>Pace:</strong> {training.pace}
+              </li>
+            ))}
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        )}
+      </div>
+    </div>
   )
 }
 
