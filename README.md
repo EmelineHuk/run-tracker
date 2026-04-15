@@ -1,6 +1,6 @@
 # Run Tracker
 
-O Run Tracker é uma aplicação web para registrar e acompanhar treinos de corrida.
+Run Tracker é uma aplicação web para registro de treinos de corrida. O sistema permite cadastrar data, distância e tempo, calcular o pace automaticamente e exibir o histórico de treinos. O projeto foi desenvolvido com React e Vite, utilizando Git e GitHub com branches, commits e pull requests, além de testes automatizados com Vitest e integração contínua com GitHub Actions.
 
 ## Funcionalidades
 
