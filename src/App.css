@@ -1,13 +1,13 @@
 :root {
-  --bg: #e6ebd3;
-  --surface: #f6f7ed;
-  --panel: #eff2d7;
-  --text: #151718;
-  --text-muted: #5e635e;
+  --bg: #001d39;
+  --surface: #0a2b4d;
+  --panel: #12385f;
+  --text: #ffffff;
+  --text-muted: #d7e6f5;
   --accent: #d7ff41;
-  --accent-dark: #101313;
-  --border: rgba(21, 23, 24, 0.12);
-  --shadow: 0 24px 48px rgba(15, 17, 18, 0.12);
+  --accent-dark: #ffffff;
+  --border: rgba(255, 255, 255, 0.14);
+  --shadow: 0 24px 48px rgba(0, 0, 0, 0.24);
 }
 
 body {
@@ -48,14 +48,14 @@ h1 {
   display: grid;
   gap: 10px;
   font-weight: 700;
-  color: var(--accent-dark);
+  color: var(--text);
 }
 
 .training-form input {
   padding: 14px 16px 14px 40px;
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: white;
+  background: rgba(255, 255, 255, 0.08);
   font-size: 16px;
   color: var(--text);
   outline: none;
@@ -93,8 +93,8 @@ h1 {
   padding: 10px 16px;
   border: none;
   border-radius: 16px;
-  background: var(--accent-dark);
-  color: white;
+  background: var(--accent);
+  color: #001d39;
   font-size: 14px;
   cursor: pointer;
   text-transform: uppercase;
@@ -105,7 +105,7 @@ h1 {
 
 .training-form button:hover {
   transform: translateY(-1px);
-  background: #111414;
+  background: #e4ff74;
 }
 
 .training-list {
@@ -114,7 +114,7 @@ h1 {
 
 .training-list h2 {
   margin-bottom: 16px;
-  color: var(--accent-dark);
+  color: var(--text);
 }
 
 .training-list ul {
@@ -129,5 +129,5 @@ h1 {
   border-radius: 18px;
   padding: 18px 20px;
   margin-bottom: 14px;
-  color: var(--accent-dark);
+  color: var(--text);
 }
