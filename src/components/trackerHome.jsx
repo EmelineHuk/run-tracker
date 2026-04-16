@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { calculatePace } from '../utils/calculatePace'
-import './TrackerHome.css'
+import './trackerHome.css'
 
 function TrackerHome() {
   const [date, setDate] = useState('')
