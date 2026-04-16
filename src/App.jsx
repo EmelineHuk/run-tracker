@@ -1,101 +1,79 @@
 import { useState } from 'react'
 import './App.css'
-import { calculatePace } from './utils/calculatePace'
+import logo from './assets/run-tracker-logo.png'
+import TrackerHome from './components/trackerHome'
 
 function App() {
-  const [date, setDate] = useState('')
-  const [distance, setDistance] = useState('')
-  const [time, setTime] = useState('')
-  const [trainings, setTrainings] = useState([])
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  function handleSubmit(event) {
+  const validEmail = 'eduardo.lino@pucpr.br'
+  const validPassword = '123456'
+
+  function handleLogin(event) {
     event.preventDefault()
 
-    const distanceNumber = Number(distance)
+    if (email === validEmail && password === validPassword) {
+      setMessage('Acessado com sucesso!')
+      setIsSuccess(true)
 
-    if (distanceNumber <= 0) {
-      alert('A distância deve ser maior que zero.')
-      return
+      setTimeout(() => {
+        setIsLoggedIn(true)
+      }, 1000)
+    } else {
+      setMessage('Usuário ou senha incorretos!')
+      setIsSuccess(false)
     }
+  }
 
-    const pace = calculatePace(time, distanceNumber)
-
-    const newTraining = {
-      id: Date.now(),
-      date,
-      distance: distanceNumber,
-      time,
-      pace,
-    }
-
-    setTrainings([...trainings, newTraining])
-
-    setDate('')
-    setDistance('')
-    setTime('')
+  if (isLoggedIn) {
+    return <TrackerHome />
   }
 
   return (
-    <div className="container">
-      <h1>Run Tracker</h1>
-      <p className="subtitle">Registre seus treinos</p>
+    <main className="login-page">
+      <section className="login-card">
+        <div className="brand-panel">
+          <img src={logo} alt="Logo Run Tracker" className="brand-logo" />
+          <h1>Run Tracker</h1>
+          <p>
+            Acompanhe seus treinos de corrida com uma interface simples e
+            moderna.
+          </p>
+        </div>
 
-      <form className="training-form" onSubmit={handleSubmit}>
-        <label>
-          Data do treino
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2>Login</h2>
+
           <input
-            type="date"
-            value={date}
-            onChange={(event) => setDate(event.target.value)}
-            required
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
-        </label>
 
-        <label>
-          Distância (km)
           <input
-            type="number"
-            step="0.01"
-            placeholder="Ex: 5"
-            value={distance}
-            onChange={(event) => setDistance(event.target.value)}
-            required
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
 
-        <label>
-          Tempo
-          <input
-            type="time"
-            step="1"
-            value={time}
-            onChange={(event) => setTime(event.target.value)}
-            required
-          />
-        </label>
+          <button type="submit">Acessar</button>
 
-        <button type="submit">Salvar treino</button>
-      </form>
-
-      <div className="training-list">
-        <h2>Histórico de treinos</h2>
-
-        {trainings.length === 0 ? (
-          <p>Nenhum treino cadastrado ainda.</p>
-        ) : (
-          <ul>
-            {trainings.map((training) => (
-              <li key={training.id}>
-                <strong>Data:</strong> {training.date} |{' '}
-                <strong>Distância:</strong> {training.distance} km |{' '}
-                <strong>Tempo:</strong> {training.time} |{' '}
-                <strong>Pace:</strong> {training.pace}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+          <label
+            className={`feedback-label ${
+              message ? (isSuccess ? 'success' : 'error') : ''
+            }`}
+          >
+            {message}
+          </label>
+        </form>
+      </section>
+    </main>
   )
 }
 
