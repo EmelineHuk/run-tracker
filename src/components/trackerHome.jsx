@@ -2,11 +2,19 @@ import { useState } from 'react'
 import { calculatePace } from '../utils/calculatePace'
 import './trackerHome.css'
 
-function TrackerHome() {
+function TrackerHome({ profile }) {
   const [date, setDate] = useState('')
   const [distance, setDistance] = useState('')
   const [time, setTime] = useState('')
   const [trainings, setTrainings] = useState([])
+
+  const fullName = [profile?.nome, profile?.sobrenome]
+    .filter(Boolean)
+    .join(' ')
+
+  const formattedBirthDate = profile?.dataNascimento
+    ? new Date(`${profile.dataNascimento}T00:00:00`).toLocaleDateString('pt-BR')
+    : ''
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -38,6 +46,18 @@ function TrackerHome() {
   return (
     <main className="tracker-page">
       <section className="tracker-card">
+        {profile && (
+          <div className="profile-summary">
+            <p className="profile-label">Perfil</p>
+            <h2>{fullName || 'Usuario'}</h2>
+            {formattedBirthDate && (
+              <p className="profile-birthdate">
+                Data de nascimento: {formattedBirthDate}
+              </p>
+            )}
+          </div>
+        )}
+
         <h1>Run Tracker</h1>
         <p className="subtitle">Registre seus treinos</p>
 
